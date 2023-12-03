@@ -1,0 +1,60 @@
+   <nav class="navbar navbar-default no-margin custom-navbar">
+    <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header fixed-brand">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
+                      <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><span class="fa-stack fa-lg pull-left"></span><i class="fa fa-home fa-stack-0.8x"></i> Home</a>
+                </div><!-- navbar-header-->
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+                            </ul>
+                </div><!-- bs-example-navbar-collapse-1 -->
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+                {% if session.logged_in %}
+                <li {% if request.path == '/profile' %}class="active"{% endif %}>
+                    <a href="/profile"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user-circle-o fa-stack-1x "></i></span>{{session.username}}</a>
+                </li>
+                {% endif %}
+                <li {% if request.path == '/dashboard' %}class="active"{% endif %}>
+                    <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
+                </li>
+                <!--
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span> Shortcut</a>
+                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
+                        <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link1</a></li>
+                        <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link2</a></li>
+
+                    </ul>
+                </li>
+            -->
+                <li {% if request.path == '/history' %}class="active"{% endif %}>
+                    <a href="/history"><span class="fa-stack fa-lg pull-left"><i class="fa fa-list fa-stack-1x "></i></span>History</a>
+                </li>
+                <li {% if request.path == '/about' %}class="active"{% endif %}>
+                    <a href="/about"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-info-circle fa-stack-1x"></i></span>About</a>
+                </li>
+            </ul>
+            <ul class="sidebar-nav nav-pills nav-stacked bottom" id="menu">
+                <hr>
+                {% if session.logged_in %}
+                <li {% if request.path == '/logout' %}class="active"{% endif %}>
+                    <a href="/logout"><span class="fa-stack fa-lg pull-left"><i class="fa fa-sign-out fa-stack-1x"></i></span>Logout</a>
+                </li>
+                {% else %}
+                <li {% if request.path == '/register' %}class="active"{% endif %}>
+                    <a href="/register"><span class="fa-stack fa-lg pull-left"><i class="fa fa-id-badge fa-stack-1x "></i></span>Register</a>
+                </li>
+                <li {% if request.path == '/login' %}class="active"{% endif %}>
+                    <a href="/login"><span class="fa-stack fa-lg pull-left"><i class="fa fa-sign-in fa-stack-1x"></i>
+                    </span>Login</a>
+                </li>
+                {% endif %}
+            </ul>

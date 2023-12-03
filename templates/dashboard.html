@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+{% block title %}Dashboard{% endblock %}
+<!-- {% block style %} 
+{% endblock style %} -->
+{% block body %}
+<body>
+    <h1>Dashboard
+      <br><small> Welcome {{session.username}}</small></h1>
+    <br>
+    <script>
+        // function refresh(timeoutPeriod){
+        //     setTimeout("location.reload(true);", timeoutPeriod);
+        // }
+        // window.onload = refresh(2000);
+        function fetchData() {
+        fetch('/update_data') // Replace with the correct URL for your Flask route
+            .then(response => response.json())
+            .then(data => {
+                // Update the temperature and humidity values on the page
+                document.getElementById('temperature').textContent = data.temperature;
+                document.getElementById('humidity').textContent = data.humidity;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Call the fetchData function when the page loads to initially load the data
+    window.addEventListener('load', fetchData);
+
+    // You can also set an interval to periodically fetch and update the data
+    setInterval(fetchData, 2000); // Fetch data every 5 seconds (adjust the interval as needed)
+    </script>
+    <div style="float: left;">
+      <h1>Humidity = {{ humidity }}%</h1>
+      <div class="temp-legend">
+        <ul class="Legend">
+        <li class="Legend-item">
+          <span class="Legend-colorBox" style="background-color: yellow; width: 1.5rem; height: 1.5rem; display: inline-block;">
+          </span>
+          <span class="Legend-label">
+            Dry
+          </span>
+        </li>
+        <li class="Legend-item">
+          <span class="Legend-colorBox" style="background-color: green; width: 1.5rem; height: 1.5rem; display: inline-block;">
+          </span>
+          <span class="Legend-label">
+            Good
+          </span>
+        </li>
+        <li class="Legend-item">
+          <span class="Legend-colorBox" style="background-color: blue; width: 1.5rem; height: 1.5rem; display: inline-block;">
+          </span>
+          <span class="Legend-label">
+            Wet
+          </span>
+        </li>
+    </ul>
+</div>
+  <div style="width: 500px; height: 120px; background-image: linear-gradient(90deg, yellow 5.66%, green 52%, blue 94% );"></div>
+  <progress style="height: 50px; width: 500px;" max = "100" value = {{ humidity }}></progress>
+  
+    </div>
+
+    <div style="float: right;">
+        <h1>Temperature = {{ temperature }}°C</h1>
+            <div class="temp-legend">
+              <ul class="Legend">
+              <li class="Legend-item">
+                <span class="Legend-colorBox" style="background-color: blue; width: 1.5rem; height: 1.5rem; display: inline-block;">
+                </span>
+                <span class="Legend-label">
+                  Cold
+                </span>
+              </li>
+              <li class="Legend-item">
+                <span class="Legend-colorBox" style="background-color: orange; width: 1.5rem; height: 1.5rem; display: inline-block;">
+                </span>
+                <span class="Legend-label">
+                  Good
+                </span>
+              </li>
+              <li class="Legend-item">
+                <span class="Legend-colorBox" style="background-color: red; width: 1.5rem; height: 1.5rem; display: inline-block;">
+                </span>
+                <span class="Legend-label">
+                  Hot
+                </span>
+              </li>
+          </ul>
+    </div>
+        <div style="width: 500px; height: 120px; background-image: linear-gradient(90deg, blue 7%, orange 33%, red 60% );"></div>
+        <progress style="height: 50px; width: 500px;" max = "60" value = {{ temperature }}></progress>
+    </div>
+    <br><br>
+</body>
+{% endblock %}
