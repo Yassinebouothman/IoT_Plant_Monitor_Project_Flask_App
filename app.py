@@ -135,36 +135,13 @@ def is_logged_in(f):
 @app.route('/dashboard')
 @is_logged_in
 def dashboard():
-    try:
-        response = requests.get(thingspeak_api_url)
-        data = response.json()
-        if data["feeds"]:
-            temperature = data["feeds"][0]["field1"]
-            humidity = data["feeds"][0]["field2"] 
-        else:
-            temperature = "N/A"
-    except Exception as e:
-        print("error", e)
-        temperature = "N/A"    
+    temperature, humidity = get_thingspeak_data()
     return render_template("dashboard.html", temperature=temperature, humidity=humidity)
 
-@app.route('/update_data')
+@app.route('/fetch_data')
 @is_logged_in
-def update_data():
-    try:
-        response = requests.get(thingspeak_api_url)
-        data = response.json()
-        if data["feeds"]:
-            temperature = data["feeds"][0]["field1"]
-            humidity = data["feeds"][0]["field2"]
-        else:
-            temperature = "N/A"
-            humidity = "N/A"
-    except Exception as e:
-        print("error", e)
-        temperature = "N/A"
-        humidity = "N/A"
-
+def fetch_data():
+    temperature, humidity = get_thingspeak_data()
     return jsonify(temperature=temperature, humidity=humidity)
 
 @app.route('/logout')
@@ -186,3 +163,18 @@ if __name__ == '__main__':
     app.run()
 
 
+def get_thingspeak_data():
+    try:
+        response = requests.get(thingspeak_api_url)
+        data = response.json()
+        if data["feeds"]:
+            temperature = data["feeds"][0]["field1"]
+            humidity = data["feeds"][0]["field2"]
+        else:
+            temperature = "N/A"
+            humidity = "N/A"
+    except Exception as e:
+        print("error", e)
+        temperature = "N/A"
+        humidity = "N/A"
+    return temperature, humidity
